@@ -167,7 +167,7 @@ class Radar:
 				else:
 					update_graph(range_bin,MTI_out,0,0,vel_bin,np.zeros(DOPPLER_PAD),0,0)
 			'''
-				'''
+			'''
 				ax[0].plot(range_bin, MTI_out)
 				ax[3].plot(real_1[0:256])
 				for target in range(target_info.num_targets):
@@ -192,7 +192,7 @@ class Radar:
 				
 				#raw_input("Press Enter to continue...")
 				#plt.close('all')
-				'''
+			'''
 			
 
     
