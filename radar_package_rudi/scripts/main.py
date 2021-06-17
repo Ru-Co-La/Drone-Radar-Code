@@ -54,7 +54,7 @@ fig1.ion()
 fig1.show()
 fig2.show()
 '''
-
+'''
 # use real-time plotting
 plt.ion()
 
@@ -81,26 +81,16 @@ fig.canvas.draw()
 # setup variable to contain incoming serial port data
 y_data = []
 x_data = []
-
+'''
+'''
 def update_graph(x,y,p,q,w,v,m,n):
     # update each line object
     lines[0].set_data(x, y)
     lines[1].set_data(p, q)
     lines[2].set_data(w, v)
-    lines[3].set_data(m, n)
-    '''
-    # try to set new axes limits
-    try:
-        ax.set_xlim([x_data[-1] - xwidth, x_data[-1]])
-        if max(y_data) > ax.get_ylim()[1]:
-            new_min = min(y_data)
-            new_max = max(y_data)
-            ax.set_ylim([new_min-abs(new_min)*0.2, new_max+abs(new_max)*0.2])
-    except:
-    	print("Something wrong in drawing")
-    '''   
+    lines[3].set_data(m, n) 
     fig.canvas.draw()
-
+'''
 # Main class: Converts joystick commands to position setpoints
 class Radar:
     # initialization method
@@ -170,12 +160,13 @@ class Radar:
 
 			#df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
 			#df[column_order].to_csv(RECORDING_FILE_PATH, mode='a', header=False)
+			'''
 			if(PLOT):
 				if target_info.num_targets > 0:
 					update_graph(range_bin,MTI_out,target_info.location[0],MTI_out[int(target_info.location[0]/RANGE2BIN)],vel_bin,target_info.doppler_spectrum[:,0],target_info.angle[np.argmax(target_info.angle_spectrum[:,0])]*np.pi/180, target_info.location[0])
 				else:
 					update_graph(range_bin,MTI_out,0,0,vel_bin,np.zeros(DOPPLER_PAD),0,0)
-
+			'''
 				'''
 				ax[0].plot(range_bin, MTI_out)
 				ax[3].plot(real_1[0:256])
@@ -184,11 +175,13 @@ class Radar:
 					ax[2].plot(vel_bin, target_info.doppler_spectrum[:,target])
 					polar_ax.plot(target_info.angle[np.argmax(target_info.angle_spectrum[:,target])]*np.pi/180, target_info.location[target], 'o')
 				'''
+				'''
 				ax[0].set_xlim(left=range_bin[0],right=range_bin[-1])
 				ax[0].set_ylim(bottom=0,top=0.3)
 				ax[1].set_xlim(left=vel_bin[0],right=vel_bin[-1])
 				ax[1].set_ylim(bottom=0,top=0.3)
 				polar_ax.set_rmax(5)
+				'''
 				'''
 				ax[1].set_xlim(range_bin[1],range_bin[-1])
 				ax[1].grid()
