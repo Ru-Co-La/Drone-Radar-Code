@@ -1,0 +1,5 @@
+<launch>
+    <!-- Your package node -->
+    <node pkg="radar_package_rudi" type="main.py" name="main"  required="true" output="screen">
+    </node>
+</launch>
