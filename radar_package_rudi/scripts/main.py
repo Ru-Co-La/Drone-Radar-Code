@@ -174,15 +174,15 @@ class Radar:
 					ax[1].plot(target_info.location[target], target_info.strength[target],'o')
 					ax[2].plot(vel_bin, target_info.doppler_spectrum[:,target])
 					polar_ax.plot(target_info.angle[np.argmax(target_info.angle_spectrum[:,target])]*np.pi/180, target_info.location[target], 'o')
-				'''
-				'''
+			'''
+			'''
 				ax[0].set_xlim(left=range_bin[0],right=range_bin[-1])
 				ax[0].set_ylim(bottom=0,top=0.3)
 				ax[1].set_xlim(left=vel_bin[0],right=vel_bin[-1])
 				ax[1].set_ylim(bottom=0,top=0.3)
 				polar_ax.set_rmax(5)
-				'''
-				'''
+			'''
+			'''
 				ax[1].set_xlim(range_bin[1],range_bin[-1])
 				ax[1].grid()
 				ax[1].set_ylim(bottom=0,top=ax[1].get_ylim()[1])
