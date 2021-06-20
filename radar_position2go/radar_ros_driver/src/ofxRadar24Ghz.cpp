@@ -232,6 +232,7 @@ int ofxRadar24Ghz::radar_auto_connect() {
 
 //--------------------------------------------------------------
 void ofxRadar24Ghz::update() {
+	std::cout << "HEY I AM UPDATING" << endl;
 	// get raw data
 	if(islive and !isloaddata){
 		if(!acq_started){
