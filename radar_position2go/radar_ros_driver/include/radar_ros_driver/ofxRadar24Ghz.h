@@ -53,7 +53,7 @@
 #define CURRENT_NUM_OF_TRACKS       1
 
 #define AUTOMATIC_DATA_FRAME_TRIGGER 0		        // define if automatic trigger is active or not
-#define AUTOMATIC_DATA_TRIGER_TIME_US (300)	        // get ADC data each 300us in not automatic trigger mode
+#define AUTOMATIC_DATA_TRIGER_TIME_US (200000)	        // get ADC data each 300us in not automatic trigger mode
 #define SPEED_OF_LIGHT              2.998e8
 
 #define CHIRP_DUR_NS                300000

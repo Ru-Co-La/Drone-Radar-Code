@@ -1,5 +1,8 @@
 #include "radar_ros_driver/ofxRadar24Ghz.h"
 #include <iostream>
+#include<unistd.h>
+
+
 
 //--------------------------------------------------------------
 void ofxRadar24Ghz::setup() {
@@ -257,8 +260,16 @@ void ofxRadar24Ghz::update() {
 				islive = false;
 			}
 		}
+		unsigned int millisecond = 1000;
+		int counter = 0;
+		while(counter < 25){
+			res = ep_radar_base_get_frame_data(protocolHandle,	endpointRadarBase,	0);
+			usleep(200 * millisecond);//sleeps for 5 ms
+			counter++;
+			std::cout << counter;
+		}		
 
-		res = ep_radar_base_get_frame_data(protocolHandle,	endpointRadarBase,	1);
+		//res = ep_radar_base_get_frame_data(protocolHandle,	endpointRadarBase,	1);
 		if(res != -1){
 			// IF LIVE DATA
 			for (uint32_t CHIRP_NUM = 0; CHIRP_NUM < (uint32_t)num_chirps; CHIRP_NUM++){
