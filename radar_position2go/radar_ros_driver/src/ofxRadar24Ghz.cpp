@@ -246,6 +246,12 @@ void ofxRadar24Ghz::update() {
 			}
 			if(res != -1){
 				acq_started = true;
+				const char* pointer_to_status_code = protocol_get_status_code_description(protocolHandle, res);
+				while(*pointer_to_status_code != '\0'){
+					std::cout << *pointer_to_status_code;
+					pointer_to_status_code++;
+				}
+				std::cout << endl;
 			}else{
 				printf("CANNOT START ACQUISITION\n");
 				islive = false;
