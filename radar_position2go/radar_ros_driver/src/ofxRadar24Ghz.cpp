@@ -235,6 +235,7 @@ void ofxRadar24Ghz::update() {
 	// get raw data
 	if(islive and !isloaddata){
 		if(!acq_started){
+			std::cout << "Setting the trigger" << endl;
 			// start acquisition
 			// enable/disable automatic trigger
 			if (AUTOMATIC_DATA_FRAME_TRIGGER){
@@ -259,6 +260,7 @@ void ofxRadar24Ghz::update() {
 				printf("CANNOT START ACQUISITION\n");
 				islive = false;
 			}
+			std::cout << "Trigger set" << endl;
 		}
 		unsigned int millisecond = 1000;
 		int counter = 0;
