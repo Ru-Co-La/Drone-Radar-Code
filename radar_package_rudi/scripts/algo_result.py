@@ -26,7 +26,7 @@ class algo_result:
         self.last_added += 1
         
     def collect_target_angle(self, target_angle):
-		self.angle_spectrum[:,self.last_added-1] = np.flip(target_angle, axis=0)
+		self.angle_spectrum[:,self.last_added-1] = flip(target_angle)
         
     def collect_target_doppler_mark(self, doppler_mark):
         self.doppler_mark[:,self.last_added-1] = doppler_mark
@@ -43,3 +43,10 @@ def initialize_beam_forming_matrix(angle_bins):
 	beam_forming_matrix = np.append(phase_matrix, complex_angle, axis=1)
 	return beam_forming_matrix
     
+def flip(myArr):
+    array_len = len(myArr)
+    for i in range(array_len/2):
+        tmp = myArr[i]
+        myArr[i] = myArr[-1-i]
+        myArr[-1-i] = tmp
+    return myArr
