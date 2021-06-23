@@ -32,7 +32,7 @@ def algo_process(frame,range_zero_pad,doppler_zero_pad,peak_thresh,peak_slice,pe
     selected_chirp = np.abs(X)
     #Peak search
     search_zone = round(search_zone/bin2range)
-    target_position,target_strength = peak_search(selected_chirp, np.abs(fast_fft_data_out[:,0,-1]) ,'fast',peak_thresh,peak_width,peak_relevance,search_zone)
+    target_position,target_strength = peak_search(selected_chirp, selected_chirp ,'fast',peak_thresh,peak_width,peak_relevance,search_zone)
     #Initialize target info
     target_info = alg_res.algo_result(target_position, target_strength,bin2range, peak_slice, frame.chirp_x_frame, doppler_zero_pad,wavelen_spacing_rat,int(360/angle_precision))
     #Target info collection
