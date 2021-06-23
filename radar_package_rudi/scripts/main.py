@@ -152,11 +152,11 @@ class Radar:
 			####################
 			# FAKE DATA
 			####################
-			self.algo_process_output.total_targets = 1
-			self.algo_process_output.target_position = np.zeros(MAX_TARGETS).tolist()
-			self.algo_process_output.target_position[0] = 2.5
-			self.algo_process_output.target_angle = np.zeros(MAX_TARGETS).tolist()
-			self.algo_process_output.target_angle[0] = np.pi/4
+			#self.algo_process_output.total_targets = 1
+			#self.algo_process_output.target_position = np.zeros(MAX_TARGETS).tolist()
+			#self.algo_process_output.target_position[0] = 2.5
+			#self.algo_process_output.target_angle = np.zeros(MAX_TARGETS).tolist()
+			#self.algo_process_output.target_angle[0] = np.pi/4
 
 			#df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
 			#df[column_order].to_csv(RECORDING_FILE_PATH, mode='a', header=False)
