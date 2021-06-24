@@ -9,8 +9,8 @@ import numpy as np
 import frame as fr
 import algo_result as alg_res
 import algo_process
-#import csv
-#import pandas as pd
+import csv
+import pandas as pd
 
 PLOT = 1
 SAMPLES_PER_CHIRP = 64
@@ -40,9 +40,17 @@ RANGE2BIN = np.true_divide(SAMPLES_PER_CHIRP*SPEED_OF_LIGHT,RANGE_PAD*2*B)
 range_bin = np.arange(0, RANGE_PAD)*RANGE2BIN
 vel_bin = np.fft.fftshift(np.fft.fftfreq(DOPPLER_PAD, PULSE_REPETITION_INTERVAL))*SPEED_OF_LIGHT/(2*START_FREQUENCY)
 
-RECORDING_FILE_PATH = '/home/risc/catkin_ws/data/test_1.csv'
-CALIBRATION_DATA_PATH = '/home/risc/catkin_ws/data/calibration_data.csv'
+RECORDING_FILE_PATH = '/home/odroid/radar_data/recording_data'
+CALIBRATION_DATA_PATH = '/home/odroid/radar_data/calibration_data'
 column_order = ['R1', 'I1', 'R2', 'I2']
+
+CALIBRATING = True
+DATA_PATH = ''
+if CALIBRATING:
+	DATA_PATH = CALIBRATION_DATA_PATH
+else:
+	DATA_PATH = RECORDING_FILE_PATH
+
 '''
 fig1,ax = plt.subplots(4,1)
 fig2 = plt.figure()
@@ -95,12 +103,12 @@ def update_graph(x,y,p,q,w,v,m,n):
 class Radar:
     # initialization method
     def __init__(self):
-        #calib_data = pd.read_csv(CALIBRATION_DATA_PATH).values[:,1:]
-        #calib_data = np.array((calib_data[:,0] + 1j*calib_data[:,1],calib_data[:,2] + 1j*calib_data[:,3])).T
-        #self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,2))
-        #for i in range(len(calib_data[:,0])/SAMPLES_PER_CHIRP):
-        #	k = i + 1
-        #	self.calibration_data = ((k-1)*self.calibration_data + calib_data[i*SAMPLES_PER_CHIRP:(i+1)*SAMPLES_PER_CHIRP,:])/k
+        calib_data = pd.read_csv(CALIBRATION_DATA_PATH).values[:,1:]
+        calib_data = np.array((calib_data[:,0] + 1j*calib_data[:,1],calib_data[:,2] + 1j*calib_data[:,3])).T
+        self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,2))
+        for i in range(len(calib_data[:,0])/SAMPLES_PER_CHIRP):
+        	k = i + 1
+        	self.calibration_data = ((k-1)*self.calibration_data + calib_data[i*SAMPLES_PER_CHIRP:(i+1)*SAMPLES_PER_CHIRP,:])/k
 	self.radar = Event()
 	self.algo_process_output = Radar_processing_out()
 
@@ -158,8 +166,8 @@ class Radar:
 			#self.algo_process_output.target_angle = np.zeros(MAX_TARGETS).tolist()
 			#self.algo_process_output.target_angle[0] = np.pi/4
 
-			#df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
-			#df[column_order].to_csv(RECORDING_FILE_PATH, mode='a', header=False)
+			df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
+			df[column_order].to_csv(DATA_PATH, mode='a', header=False)
 			'''
 			if(PLOT):
 				if target_info.num_targets > 0:
@@ -215,9 +223,9 @@ def main():
     # Subscribe to drone state
     rospy.Subscriber('/radar', Event, rad.stateCb)
 
-    #df = pd.DataFrame({'R1': [], 'I1': [], 'R2': [], 'I2': []})
-    #column_order = ['R1', 'I1', 'R2', 'I2']
-    #df[column_order].to_csv(RECORDING_FILE_PATH, mode='w')
+    df = pd.DataFrame({'R1': [], 'I1': [], 'R2': [], 'I2': []})
+   	column_order = ['R1', 'I1', 'R2', 'I2']
+    df[column_order].to_csv(DATA_PATH, mode='w')
 
     pub = rospy.Publisher('/radar_processing_output', Radar_processing_out, queue_size=10)
 
