@@ -103,19 +103,20 @@ def update_graph(x,y,p,q,w,v,m,n):
 class Radar:
 	# initialization method
 	def __init__(self):
-		calib_data = np.genfromtxt(CALIBRATION_DATA_PATH, delimiter='\t')
-		self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,4))
-		data_len = calib_data.shape[0]
-		idx = 1
-		k = 0
-		while idx < data_len:
-			if calib_data[idx,0] == -1 and calib_data[idx,1] == -1 and calib_data[idx,2] == -1 and calib_data[idx,3] == -1:
-				idx = idx + 1
-			else:
-				k = k + 1
-				self.calibration_data = ((k-1)*self.calibration_data + calib_data[idx:idx+SAMPLES_PER_CHIRP,:])/k
-				idx = idx + SAMPLES_PER_CHIRP
-		self.calibration_data = np.array([self.calibration_data[:,0] + 1j*self.calibration_data[:,1],self.calibration_data[:,2] + 1j*self.calibration_data[:,3]])
+		if not CALIBRATING:
+			calib_data = np.genfromtxt(CALIBRATION_DATA_PATH, delimiter='\t')
+			self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,4))
+			data_len = calib_data.shape[0]
+			idx = 1
+			k = 0
+			while idx < data_len:
+				if calib_data[idx,0] == -1 and calib_data[idx,1] == -1 and calib_data[idx,2] == -1 and calib_data[idx,3] == -1:
+					idx = idx + 1
+				else:
+					k = k + 1
+					self.calibration_data = ((k-1)*self.calibration_data + calib_data[idx:idx+SAMPLES_PER_CHIRP,:])/k
+					idx = idx + SAMPLES_PER_CHIRP
+			self.calibration_data = np.array([self.calibration_data[:,0] + 1j*self.calibration_data[:,1],self.calibration_data[:,2] + 1j*self.calibration_data[:,3]])
 		self.radar = Event()
 		self.algo_process_output = Radar_processing_out()
 
@@ -140,7 +141,8 @@ class Radar:
 		print("Non zero elements:")
 		print(np.count_nonzero(real_1))
 		myFrame = fr.Frame(real_1,real_2,imag_1,imag_2,sam_x_chirp,chirp_x_frame)
-		myFrame.calibrate(self.calibration_data)
+		if not CALIBRATING:
+			myFrame.calibrate(self.calibration_data)
 
 		#Call signal processing routine
 		if myFrame.sam_x_chirp > 0:
