@@ -166,8 +166,8 @@ class Radar:
 			#self.algo_process_output.target_angle = np.zeros(MAX_TARGETS).tolist()
 			#self.algo_process_output.target_angle[0] = np.pi/4
 
-			df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
-			df[column_order].to_csv(DATA_PATH, mode='a', header=False)
+			#df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
+			#df[column_order].to_csv(DATA_PATH, mode='a', header=False)
 			'''
 			if(PLOT):
 				if target_info.num_targets > 0:
