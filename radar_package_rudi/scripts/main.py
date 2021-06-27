@@ -103,12 +103,12 @@ def update_graph(x,y,p,q,w,v,m,n):
 class Radar:
     # initialization method
     def __init__(self):
-        calib_data = pd.read_csv(CALIBRATION_DATA_PATH).values[:,1:]
-        calib_data = np.array((calib_data[:,0] + 1j*calib_data[:,1],calib_data[:,2] + 1j*calib_data[:,3])).T
-        self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,2))
-        for i in range(len(calib_data[:,0])/SAMPLES_PER_CHIRP):
-        	k = i + 1
-        	self.calibration_data = ((k-1)*self.calibration_data + calib_data[i*SAMPLES_PER_CHIRP:(i+1)*SAMPLES_PER_CHIRP,:])/k
+        #calib_data = pd.read_csv(CALIBRATION_DATA_PATH).values[:,1:]
+        #calib_data = np.array((calib_data[:,0] + 1j*calib_data[:,1],calib_data[:,2] + 1j*calib_data[:,3])).T
+        #self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,2))
+        #for i in range(len(calib_data[:,0])/SAMPLES_PER_CHIRP):
+        #	k = i + 1
+        #	self.calibration_data = ((k-1)*self.calibration_data + calib_data[i*SAMPLES_PER_CHIRP:(i+1)*SAMPLES_PER_CHIRP,:])/k
 	self.radar = Event()
 	self.algo_process_output = Radar_processing_out()
 
@@ -223,9 +223,9 @@ def main():
     # Subscribe to drone state
     rospy.Subscriber('/radar', Event, rad.stateCb)
 
-    df = pd.DataFrame({'R1': [], 'I1': [], 'R2': [], 'I2': []})
-   	column_order = ['R1', 'I1', 'R2', 'I2']
-    df[column_order].to_csv(DATA_PATH, mode='w')
+    #df = pd.DataFrame({'R1': [], 'I1': [], 'R2': [], 'I2': []})
+   	#column_order = ['R1', 'I1', 'R2', 'I2']
+    #df[column_order].to_csv(DATA_PATH, mode='w')
 
     pub = rospy.Publisher('/radar_processing_output', Radar_processing_out, queue_size=10)
 
