@@ -92,37 +92,37 @@ x_data = []
 '''
 '''
 def update_graph(x,y,p,q,w,v,m,n):
-    # update each line object
-    lines[0].set_data(x, y)
-    lines[1].set_data(p, q)
-    lines[2].set_data(w, v)
-    lines[3].set_data(m, n) 
-    fig.canvas.draw()
+	# update each line object
+	lines[0].set_data(x, y)
+	lines[1].set_data(p, q)
+	lines[2].set_data(w, v)
+	lines[3].set_data(m, n) 
+	fig.canvas.draw()
 '''
 # Main class: Converts joystick commands to position setpoints
 class Radar:
-    # initialization method
-    def __init__(self):
-        #calib_data = pd.read_csv(CALIBRATION_DATA_PATH).values[:,1:]
-        #calib_data = np.array((calib_data[:,0] + 1j*calib_data[:,1],calib_data[:,2] + 1j*calib_data[:,3])).T
-        #self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,2))
-        #for i in range(len(calib_data[:,0])/SAMPLES_PER_CHIRP):
-        #	k = i + 1
-        #	self.calibration_data = ((k-1)*self.calibration_data + calib_data[i*SAMPLES_PER_CHIRP:(i+1)*SAMPLES_PER_CHIRP,:])/k
-	self.radar = Event()
-	self.algo_process_output = Radar_processing_out()
+	# initialization method
+	def __init__(self):
+		calib_data = pd.read_csv(CALIBRATION_DATA_PATH).values[:,1:]
+		calib_data = np.array((calib_data[:,0] + 1j*calib_data[:,1],calib_data[:,2] + 1j*calib_data[:,3])).T
+		self.calibration_data = np.zeros((SAMPLES_PER_CHIRP,2))
+		for i in range(len(calib_data[:,0])/SAMPLES_PER_CHIRP):
+			k = i + 1
+			self.calibration_data = ((k-1)*self.calibration_data + calib_data[i*SAMPLES_PER_CHIRP:(i+1)*SAMPLES_PER_CHIRP,:])/k
+		self.radar = Event()
+		self.algo_process_output = Radar_processing_out()
 
-    # Callbacks
+	# Callbacks
 
-    ## Drone State callback
-    def stateCb(self, msg):
-        self.radar = msg
+	## Drone State callback
+	def stateCb(self, msg):
+		self.radar = msg
 
-    ## Update setpoint message
-    def updateSp(self):
+	## Update setpoint message
+	def updateSp(self):
 		self.processData()
 
-    def processData(self):
+	def processData(self):
 		sam_x_chirp = self.radar.dimy
 		chirp_x_frame = self.radar.dimx
 		real_1 = np.array(self.radar.data_rx1_re)
@@ -166,8 +166,8 @@ class Radar:
 			#self.algo_process_output.target_angle = np.zeros(MAX_TARGETS).tolist()
 			#self.algo_process_output.target_angle[0] = np.pi/4
 
-			#df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
-			#df[column_order].to_csv(DATA_PATH, mode='a', header=False)
+			df = pd.DataFrame({'R1': real_1, 'I1': imag_1, 'R2': real_1, 'I2': imag_2})
+			df[column_order].to_csv(DATA_PATH, mode='a', header=False)
 			'''
 			if(PLOT):
 				if target_info.num_targets > 0:
@@ -203,41 +203,41 @@ class Radar:
 			'''
 			
 
-    
-    
+	
+	
 # Main function
 def main():
 
-    # Initiate node
-    rospy.init_node('main', anonymous=True)
+	# Initiate node
+	rospy.init_node('main', anonymous=True)
 
-    # Flight mode object
-    
-    # controller object
-    rad = Radar()
-    
+	# Flight mode object
+	
+	# controller object
+	rad = Radar()
+	
 
-    # ROS loop rate, [Hz]
-    rate = rospy.Rate(10.0)
+	# ROS loop rate, [Hz]
+	rate = rospy.Rate(10.0)
 
-    # Subscribe to drone state
-    rospy.Subscriber('/radar', Event, rad.stateCb)
+	# Subscribe to drone state
+	rospy.Subscriber('/radar', Event, rad.stateCb)
 
-    #df = pd.DataFrame({'R1': [], 'I1': [], 'R2': [], 'I2': []})
-   	#column_order = ['R1', 'I1', 'R2', 'I2']
-    #df[column_order].to_csv(DATA_PATH, mode='w')
+	df = pd.DataFrame({'R1': [], 'I1': [], 'R2': [], 'I2': []})
+	column_order = ['R1', 'I1', 'R2', 'I2']
+	df[column_order].to_csv(DATA_PATH, mode='w')
 
-    pub = rospy.Publisher('/radar_processing_output', Radar_processing_out, queue_size=10)
+	pub = rospy.Publisher('/radar_processing_output', Radar_processing_out, queue_size=10)
 
-    # ROS main loop
-    while not rospy.is_shutdown():
-        rad.updateSp()
-        pub.publish(rad.algo_process_output)
-        rate.sleep()
+	# ROS main loop
+	while not rospy.is_shutdown():
+		rad.updateSp()
+		pub.publish(rad.algo_process_output)
+		rate.sleep()
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except rospy.ROSInterruptException:
-        pass
+	try:
+		main()
+	except rospy.ROSInterruptException:
+		pass
