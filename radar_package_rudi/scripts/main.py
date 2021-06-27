@@ -40,11 +40,11 @@ RANGE2BIN = np.true_divide(SAMPLES_PER_CHIRP*SPEED_OF_LIGHT,RANGE_PAD*2*B)
 range_bin = np.arange(0, RANGE_PAD)*RANGE2BIN
 vel_bin = np.fft.fftshift(np.fft.fftfreq(DOPPLER_PAD, PULSE_REPETITION_INTERVAL))*SPEED_OF_LIGHT/(2*START_FREQUENCY)
 
-RECORDING_FILE_PATH = '/home/risc/Desktop/radar_data/recording_data.csv'
-CALIBRATION_DATA_PATH = '/home/risc/Desktop/radar_data/calibration_data.csv'
+RECORDING_FILE_PATH = '/home/odroid/radar_data/recording_data.csv'
+CALIBRATION_DATA_PATH = '/home/odroid/radar_data/calibration_data.csv'
 column_order = ['R1', 'I1', 'R2', 'I2']
 
-CALIBRATING = False
+CALIBRATING = True
 DATA_PATH = ''
 if CALIBRATING:
 	DATA_PATH = CALIBRATION_DATA_PATH
